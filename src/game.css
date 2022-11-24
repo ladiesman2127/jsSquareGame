@@ -1,0 +1,20 @@
+.gameForm 
+{
+    display: block;
+    width:80%;
+    height: 80%;
+    background-color: #092fed;
+}
+
+.gameField
+{
+    top:10%;
+    position: relative;
+    left:5%;
+    display: inline-block;
+    word-wrap: break-word;
+    flex-wrap: wrap;
+    width: 60%;
+    height: 100%;
+}
+

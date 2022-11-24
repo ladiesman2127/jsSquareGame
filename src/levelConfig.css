@@ -1,0 +1,82 @@
+
+
+.levelForm 
+{
+    position: relative;
+    text-align: center;
+    width: 400px;
+    height: 500px;
+    background-color: #092fed;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(0, 0, 0);
+}
+
+.game_label
+{
+    position: relative;
+    top:5%;
+    color:wheat;
+    font-size: 3em;
+}
+.levels
+{
+    position: relative;
+    top:11%;
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    gap:5%;
+}
+
+.button
+{
+    position: relative;
+    background-color: aliceblue;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.5em;
+    border-radius: 5px;
+    width: 70%;
+    min-height: 20%;
+    max-height: 20%;
+    
+    outline-width: 0;
+}
+
+.level_name:hover 
+{
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: 0.1s ease-in-out;
+}
+.level_name:not(hover)
+{
+    transition: 0.1s ease-in-out;
+}
+
+
+.description
+{
+    color:white;
+    background-color:#092fed;
+    opacity: 0.9;
+    border-radius: 2%;
+
+    left:105%;
+    top:0%;
+    width: 100%;
+    position: absolute;
+    height:100%;
+
+}
+
+.level_name
+{
+    position: relative;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,72 @@
+
+.authForm 
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 5%;
+    position: relative;
+    text-align: center;
+    width: 400px;
+    height: 500px;
+    background-color: #092fed;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(0, 0, 0);
+}
+
+.game_label
+{
+    position: relative;
+    color:wheat;
+    font-size: 3em;
+}
+
+
+
+.login_label
+{
+    color:wheat;
+    font-size: 2.5em;
+}
+
+.login
+{
+    text-align: center;
+    font-family: 'Roboto', sans-serif;    caret-color: red;
+    font-size: 2em;
+    width: 60%;
+    height: 10%;
+    outline-width: 0;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+
+
+.login_input_container
+{
+    width: 100%;
+}
+
+
+
+.signin
+{
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5em;
+    width: 60%;
+    height: 10%;
+    outline-width: 0;
+}
+
+.signin:hover 
+{
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.1s ease-in-out;
+}
+.signin:not(hover)
+{
+    transition: 0.1s ease-in-out;
+}
