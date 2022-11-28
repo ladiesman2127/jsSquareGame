@@ -23,9 +23,9 @@ class level {
 
 
 const levels = new Map([
-    ['easy',  new level(3, 1, generateColors(3))],
+    ['easy',  new level(3, 1, generateColors(2))],
     ['medium',new level(4, 2, generateColors(5))],
-    ['hard',  new level(5, 2, generateColors(7))],
+    ['hard',  new level(5, 2, generateColors(8))],
     ['unreal',new level(6, 3, generateColors(10))],
 ]) 
 

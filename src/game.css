@@ -1,20 +1,22 @@
 .gameForm 
 {
     display: block;
+    box-shadow: 0 1px 10px 0 #000;
     width:80%;
-    height: 80%;
+    min-width: 900px !important;
+    height:80%;
     background-color: #092fed;
 }
 
 .gameField
 {
-    top:10%;
     position: relative;
-    left:5%;
-    display: inline-block;
+    margin:0;
+    border: 1px solid black !important;
+    border-right: none !important;
+    display: flex;
     word-wrap: break-word;
     flex-wrap: wrap;
-    width: 60%;
     height: 100%;
 }
 
