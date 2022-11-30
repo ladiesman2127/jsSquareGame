@@ -2,31 +2,21 @@
 
 
 class level {
-    constructor(size, attempts, Colors) {
+    constructor(size, attempts, Colors, points, timer) {
         this._size = size
         this._attempts = attempts
         this._Colors = Colors
+        this._points = points
+        this._timer = timer
     }
-    get size() {
-        return this._size
-    }
-    get attempts() {
-        return this._attempts
-    }
-    get Colors() {
-        return this._Colors
-    }
-
-
-
 }
 
 
 const levels = new Map([
-    ['easy',  new level(3, 1, generateColors(2))],
-    ['medium',new level(4, 2, generateColors(5))],
-    ['hard',  new level(5, 2, generateColors(8))],
-    ['unreal',new level(6, 3, generateColors(10))],
+    ['easy',  new level(3, 1, generateColors(2), 10)],
+    ['medium',new level(4, 2, generateColors(5), 20)],
+    ['hard',  new level(5, 2, generateColors(8), 30)],
+    ['unreal',new level(6, 3, generateColors(10), 50)],
 ]) 
 
 

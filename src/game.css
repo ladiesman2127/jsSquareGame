@@ -1,9 +1,24 @@
+/* REFACTOR THIS SHIT PLIIIS
+
+PLEEEEEEEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSSSSSEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+*/
+
+
+*
+{
+    text-align: center;
+}
+
+
 .gameForm 
 {
     display: block;
     box-shadow: 0 1px 10px 0 #000;
     width:80%;
-    min-width: 900px !important;
+    min-width: 1100px !important;
     height:80%;
     background-color: #092fed;
 }
