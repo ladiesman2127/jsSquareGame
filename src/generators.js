@@ -104,6 +104,8 @@ function generateColoredBox (width, height, color) {
 
 export function generateBoard(form, board, numberOfElementsInField, numberOfElementsInRow, numberOfElementsInColumn, level) // export function generateField (size, Colors) need to be changed
 {
+    attempts = localStorage.getItem('attempts')
+    points = localStorage.getItem('points')
     for(let i = 0; i < numberOfElementsInField; ++i)
     {
         board.appendChild(generateBox(100/numberOfElementsInRow,100/numberOfElementsInColumn))
