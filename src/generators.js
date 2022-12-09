@@ -7,22 +7,7 @@ PLEEEEEEEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSSSSS
 */
 
 
-
-
-var rightItem = ''
-var checker = ''
-var points = 0
-var pointsLabel = generatePointsLabel()
-var attempts = 0
-var attemptsLabel = generateAttemptsLabel()
-var dragItem = null
-var stats = ''
-
-function getRandomColor(Colors) {return Colors[Math.floor(Math.random() * Colors.length)]}
-function calculateWidth(size)   {return 100/size}
-function calculateHeight(size)  {return 100/size}
-
-function generatePointsLabel() {
+const generatePointsLabel = () => {
     let pointsLabel = document.createElement('div')
     pointsLabel.id = 'points'
     pointsLabel.style.position = 'relative'
@@ -34,9 +19,7 @@ function generatePointsLabel() {
     return pointsLabel
 }
 
-
-function generateAttemptsLabel()
-{
+const generateAttemptsLabel = () => {
     let attemptsLabel = document.createElement('div')
     attemptsLabel.id = 'attempts'
     attemptsLabel.style.position = 'relative'
@@ -48,29 +31,46 @@ function generateAttemptsLabel()
     return attemptsLabel
 }
 
-function dragStart() {
+
+var rightItem = ''
+var checker = ''
+var points = 0
+var pointsLabel = generatePointsLabel()
+var attempts = 0
+var attemptsLabel = generateAttemptsLabel()
+var dragItem = null
+var stats = ''
+
+const getRandomColor  = (Colors) => {return Colors[Math.floor(Math.random() * Colors.length)]}
+const calculateWidth  = (size)   => {return 100/size}
+const calculateHeight = (size)   => {return 100/size}
+
+
+
+
+const dragStart = () => {
     console.log('drag started');
     dragItem = this;
     setTimeout(() => this.className = 'invisible', 0)
 }
 
-function dragEnd() {
+const dragEnd = () => {
     console.log('drag ended');
   	this.className = 'item'
 }
 
-function dragDrop() {
+const dragDrop = () => {
     console.log('drag dropped');
     console.log(this)
 }
 
-function dragOver(e) {
+const dragOver = (e) => {
     e.preventDefault()
     console.log('drag over');
 }
 
 
-function generateBox (width, height) {
+const generateBox =  (width, height) => {
     let box                  = document.createElement("div")
     box.classList.add("box")
     box.style.opacity        = '90%'
@@ -86,7 +86,7 @@ function generateBox (width, height) {
 }
 
 
-function generateColoredBox (width, height, color) {
+const generateColoredBox =  (width, height, color) => {
     let box                   = document.createElement("div")
     box.classList.add("coloredBox")
     box.style.opacity         = '90%'
@@ -102,7 +102,12 @@ function generateColoredBox (width, height, color) {
 
 
 
-export function generateBoard(form, board, numberOfElementsInField, numberOfElementsInRow, numberOfElementsInColumn, level) // export function generateField (size, Colors) need to be changed
+export const generateBoard = (form, 
+                             board, 
+                             numberOfElementsInField, 
+                             numberOfElementsInRow, 
+                             numberOfElementsInColumn, 
+                             level) => 
 {
     attempts = localStorage.getItem('attempts')
     points = localStorage.getItem('points')
@@ -116,7 +121,9 @@ export function generateBoard(form, board, numberOfElementsInField, numberOfElem
         box.appendChild(innerBox)
         for(let i = 0; i < level._size * level._size; ++i)
         {
-            innerBox.appendChild(generateColoredBox(calculateWidth(level._size),calculateHeight(level._size), getRandomColor(level._Colors)))
+            innerBox.appendChild(generateColoredBox(calculateWidth(level._size),
+                                                    calculateHeight(level._size), 
+                                                    getRandomColor(level._Colors)))
         }
         puzzles.push(innerBox)
     })
@@ -127,26 +134,18 @@ export function generateBoard(form, board, numberOfElementsInField, numberOfElem
     rightItem.classList.remove('innerBox')
     rightItem.style.width          = box.offsetWidth + "px"
     rightItem.style.height         = box.offsetWidth + 'px'
-    rightItem.style.transform      = Math.floor(Math.random() * 4) * 90
-    stats = generateStats(form, board, box, level._points, level._attempts)
+    rightItem.style.transform      = 'rotate(' + Math.floor(Math.random() * 4) * 90 + 'deg)'
     document.querySelectorAll('.innerBox').forEach((innerBox) => {
-        innerBox.style.transform = Math.floor(Math.random() * 4) * 90
+        innerBox.style.transform = 'rotate(' + Math.floor(Math.random() * 4) * 90 + 'deg)'
     })
-    // form.appendChild(updateButton)
-    // form.appendChild(timer)
-    // form.appendChild(exit)
-    // form.appendChild(changeDiff)
+    stats = generateStats(form, board, box, level._points, level._attempts)
     form.appendChild(stats)
     // add attempts to stats
     // add timer to stats
-    // add buttonUpdate to stats
-    // add buttonExit to stats
-    // add buttonChangeDiff to stats
-    // realize rotate 
 }
 
 
-function generateStats(form, board, box, point, attempt)
+const generateStats = (form, board, box, point, attempt) => 
 {
     let stats                  = document.createElement('div')
     stats.classList.add('stats')
@@ -162,7 +161,6 @@ function generateStats(form, board, box, point, attempt)
     stats.style.height         = '100%'
     stats.style.border         = '1px solid black'
     checker = generateChecker(form, point, attempts)
-    // buttonSection = generateButtonSection()
     pointsLabel = generatePointsLabel()
     attemptsLabel = generateAttemptsLabel()
     stats.appendChild(generatebuttonSection())
@@ -170,6 +168,15 @@ function generateStats(form, board, box, point, attempt)
     stats.appendChild(attemptsLabel)
     stats.appendChild(rightItem)
     stats.appendChild(checker)
+    stats.style.top = '-100%'
+    stats.style.left = board.offsetWidth + 'px'
+    stats.style.width = form.offsetWidth - board.offsetWidth + 'px'
+    pointsLabel.style.width = '50%'
+    attemptsLabel.style.width = '50%'
+    rightItem.style.width = box.offsetWidth + 'px'
+    rightItem.style.height = box.offsetHeight + 'px'
+    checker.style.width = box.offsetWidth + 'px'
+    checker.style.height = box.offsetHeight + 'px'
     window.addEventListener('resize', () => {
         stats.style.top = '-100%'
         stats.style.left = board.offsetWidth + 'px'
@@ -184,8 +191,7 @@ function generateStats(form, board, box, point, attempt)
     return stats
 }
 
-function generateButton(name)
-{
+const generateButton = (name) => {
     let button                   = document.createElement('button')
     button.style.position        = 'relative'
     button.style.borderRadius    = '10px'
@@ -207,12 +213,20 @@ function generateButton(name)
 }
 
 
-function generatebuttonSection()
-{
+const generatebuttonSection = () => {
     let buttonSection                  = document.createElement('div')
-    let buttonUpdate                   = document.createElement('button')
-    let buttonExit                     = document.createElement('button')
-    let buttonChangeDiff               = document.createElement('button')
+    let buttonUpdate                   = document.createElement('div')
+    let buttonExit                     = document.createElement('div')
+    let buttonChangeDiff               = document.createElement('div')
+    buttonExit.addEventListener('click', () => {
+        window.location.href = '/finish.html';
+    })
+    buttonUpdate.addEventListener('click', () => {
+        window.location.reload();
+    })
+    buttonChangeDiff.addEventListener('click', () => {
+        window.location.href = '/levelConfig.html';
+    })
     buttonSection.style.width          = '60%'
     buttonSection.style.height         = 'auto'
     buttonSection.style.position       = 'relative'
@@ -228,8 +242,7 @@ function generatebuttonSection()
 
 
 
-function generateInnerBox()
-{
+const generateInnerBox= () => {
     let innerBox                  = document.createElement("div")
     innerBox.classList.add("innerBox")
     innerBox.style.position       = 'relative'
@@ -254,8 +267,7 @@ function generateInnerBox()
 }
 
 
-function generateChecker(form, point, attempts) 
-{
+const generateChecker= (form, point, attempts) => {
     let box                      = document.querySelector('.innerBox')
     let checker                  = document.createElement("div")
     checker.style.position       = 'relative'
