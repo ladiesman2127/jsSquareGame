@@ -1,7 +1,3 @@
-
-
-
-
 document.querySelector(".signin").addEventListener("click", () => {
     const login   = document.querySelector(".login").value;
     if(localStorage.getItem(login) == null)

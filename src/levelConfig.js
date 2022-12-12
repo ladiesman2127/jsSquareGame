@@ -1,6 +1,4 @@
 
-
-
 class level {
     constructor(size, attempts, Colors, points, timer) {
         this._size = size
@@ -9,6 +7,20 @@ class level {
         this._points = points
         this._timer = timer
     }
+}
+
+
+function generateColors(countOfColors)
+{
+    let colors = []
+    for(let i = 0; i < countOfColors; ++i)
+    {
+        let red   = Math.floor(Math.random() * 2)
+        let blue  = Math.floor(Math.random() * 256)
+        let green = Math.floor(Math.random() * 256)
+        colors.push("#" + (1 << 24 | red << 16 | green << 8 | blue).toString(16).slice(1))
+    }
+    return colors
 }
 
 
@@ -21,18 +33,6 @@ const levels = new Map([
 
 
 
-function generateColors(countOfColors)
-{
-    let colors = []
-    for(let i = 0; i < countOfColors; ++i)
-    {
-        let red   = Math.floor(Math.random() * 256)
-        let blue  = Math.floor(Math.random() * 256)
-        let green = Math.floor(Math.random() * 256)
-        colors.push("#" + (1 << 24 | red << 16 | green << 8 | blue).toString(16).slice(1))
-    }
-    return colors
-}
 
 
 

@@ -7,72 +7,48 @@ PLEEEEEEEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSSSSS
 */
 
 
-const generatePointsLabel = () => {
-    let pointsLabel = document.createElement('div')
-    pointsLabel.id = 'points'
+// repair innerbox click handler(mb errors with rotateDegs)
+
+
+const generatePointsLabel = (points) => {
+    let pointsLabel            = document.createElement('div')
+    pointsLabel.id             = 'points'
     pointsLabel.style.position = 'relative'
-    pointsLabel.style.width = '50%'
-    pointsLabel.style.height = 'auto'
-    pointsLabel.style.fontSize = '2em'
-    pointsLabel.textContent = 'Points: ' + points
-    pointsLabel.style.color = 'white'
+    pointsLabel.style.width    = '50%'
+    pointsLabel.style.height   = 'auto'
+    pointsLabel.style.fontSize = '2rem'
+    pointsLabel.textContent    = 'Очки: ' + points
+    pointsLabel.style.color    = 'white'
     return pointsLabel
 }
 
-const generateAttemptsLabel = () => {
-    let attemptsLabel = document.createElement('div')
-    attemptsLabel.id = 'attempts'
+const generateAttemptsLabel = (attempts) => {
+    let attemptsLabel            = document.createElement('div')
+    attemptsLabel.id             = 'attempts'
     attemptsLabel.style.position = 'relative'
-    attemptsLabel.style.width = '50%'
-    attemptsLabel.style.height = 'auto'
-    attemptsLabel.style.fontSize = '2em'
-    attemptsLabel.textContent = 'Attempts: ' + attempts
-    attemptsLabel.style.color = 'white'
+    attemptsLabel.style.width    = '50%'
+    attemptsLabel.style.height   = 'auto'
+    attemptsLabel.style.fontSize = '2rem'
+    attemptsLabel.textContent    = 'Попытки: ' + attempts
+    attemptsLabel.style.color    = 'white'
     return attemptsLabel
 }
 
 
 var rightItem = ''
-var checker = ''
-var points = 0
-var pointsLabel = generatePointsLabel()
-var attempts = 0
-var attemptsLabel = generateAttemptsLabel()
-var dragItem = null
-var stats = ''
+var stats     = ''
+var checker   = ''
+var points    = 0
+var dragItem  = null
+
 
 const getRandomColor  = (Colors) => {return Colors[Math.floor(Math.random() * Colors.length)]}
 const calculateWidth  = (size)   => {return 100/size}
 const calculateHeight = (size)   => {return 100/size}
 
 
-
-
-const dragStart = () => {
-    console.log('drag started');
-    dragItem = this;
-    setTimeout(() => this.className = 'invisible', 0)
-}
-
-const dragEnd = () => {
-    console.log('drag ended');
-  	this.className = 'item'
-}
-
-const dragDrop = () => {
-    console.log('drag dropped');
-    console.log(this)
-}
-
-const dragOver = (e) => {
-    e.preventDefault()
-    console.log('drag over');
-}
-
-
 const generateBox =  (width, height) => {
     let box                  = document.createElement("div")
-    box.classList.add("box")
     box.style.opacity        = '90%'
     box.style.display        = 'flex'
     box.style.flexWrap       = 'wrap'
@@ -82,35 +58,40 @@ const generateBox =  (width, height) => {
     box.style.borderCollapse = 'collapse'
     box.style.width          = width + "%"
     box.style.height         = height + "%"
+    box.classList.add("box")
     return box
 }
 
 
 const generateColoredBox =  (width, height, color) => {
     let box                   = document.createElement("div")
-    box.classList.add("coloredBox")
     box.style.opacity         = '90%'
     box.style.backgroundColor = color
     box.style.position        = 'relative'
     box.style.borderCollapse  = 'collapse'
-    box.style.border          = '0.5px solid grey'
+    box.style.border          = '0.5px solid black'
     box.style.width           = width + "%"
     box.style.height          = height + "%"
+    box.classList.add("coloredBox")
     return box
 }
 
 
 
 
+const getPoints = () => {
+    return localStorage.getItem('points') != null ? points = localStorage.getItem('points') : 0
+}
+
 export const generateBoard = (form, 
-                             board, 
-                             numberOfElementsInField, 
-                             numberOfElementsInRow, 
-                             numberOfElementsInColumn, 
-                             level) => 
+                              board, 
+                              numberOfElementsInField, 
+                              numberOfElementsInRow, 
+                              numberOfElementsInColumn, 
+                              level) => 
 {
-    attempts = localStorage.getItem('attempts')
-    points = localStorage.getItem('points')
+
+
     for(let i = 0; i < numberOfElementsInField; ++i)
     {
         board.appendChild(generateBox(100/numberOfElementsInRow,100/numberOfElementsInColumn))
@@ -128,65 +109,64 @@ export const generateBoard = (form,
         puzzles.push(innerBox)
     })
     let box = document.querySelector('.innerBox')
-    let randomPuzzle = puzzles[Math.floor(Math.random() * puzzles.length)]
-    randomPuzzle.id = 'rightItem' 
-    rightItem = randomPuzzle.cloneNode(true) // clone random puzzle
-    rightItem.classList.remove('innerBox')
-    rightItem.style.width          = box.offsetWidth + "px"
-    rightItem.style.height         = box.offsetWidth + 'px'
-    rightItem.style.transform      = 'rotate(' + Math.floor(Math.random() * 4) * 90 + 'deg)'
     document.querySelectorAll('.innerBox').forEach((innerBox) => {
-        innerBox.style.transform = 'rotate(' + Math.floor(Math.random() * 4) * 90 + 'deg)'
+        let randomDeg = Math.floor(Math.random() * 4) * 90
+        innerBox.style.rotate = randomDeg + 'deg'
+        let rotateDeg = randomDeg
+        innerBox.addEventListener('click', () => {
+            if(rotateDeg == 0)
+                rotateDeg = 90
+            else if(rotateDeg == 270)
+                rotateDeg = 0
+
+            innerBox.style.rotate  = rotateDeg + 'deg' 
+            rotateDeg += 90
+        })
     })
-    stats = generateStats(form, board, box, level._points, level._attempts)
+    stats = generateStats(form, board, box, getPoints(), level._attempts, puzzles[Math.floor(Math.random() * puzzles.length)])
     form.appendChild(stats)
-    // add attempts to stats
     // add timer to stats
 }
 
 
-const generateStats = (form, board, box, point, attempt) => 
+const generateRightItem = (randomItem, box) => {
+    let rightItem          = randomItem.cloneNode(true)
+    rightItem.id           = 'rightItem'
+    rightItem.style.width  = box.offsetWidth + 'px'
+    rightItem.style.height = box.offsetHeight + 'px'
+    rightItem.style.rotate = Math.floor((Math.random() * 4)) * Math.PI/2 + 'rad'
+    rightItem.classList.remove('.innerBox')
+    window.addEventListener('resize', () => {
+        rightItem.style.width  = box.offsetWidth + 'px'
+        rightItem.style.height = box.offsetHeight + 'px'
+    })
+    return rightItem
+}
+
+const generateStats = (form, board, box, points, attempts, randomItem) => 
 {
     let stats                  = document.createElement('div')
-    stats.classList.add('stats')
     stats.style.position       = 'relative'
-    stats.style.left           = '0'
     stats.style.display        = 'flex'
     stats.style.flexWrap       = 'wrap'
     stats.style.justifyContent = 'center'
-    stats.style.top = '-100%'
-    stats.style.left = board.offsetWidth + 'px'
-    stats.style.width = form.offsetWidth - board.offsetWidth + 'px'
     stats.style.alignItems     = 'center'
+    stats.style.left           = board.offsetWidth + 'px'
+    stats.style.width          = form.offsetWidth - board.offsetWidth + 'px'
     stats.style.height         = '100%'
-    stats.style.border         = '1px solid black'
-    checker = generateChecker(form, point, attempts)
-    pointsLabel = generatePointsLabel()
-    attemptsLabel = generateAttemptsLabel()
+    checker                    = 
     stats.appendChild(generatebuttonSection())
-    stats.appendChild(pointsLabel)
-    stats.appendChild(attemptsLabel)
-    stats.appendChild(rightItem)
-    stats.appendChild(checker)
+    stats.appendChild(generatePointsLabel(points))                                // points label
+    stats.appendChild(generateAttemptsLabel(attempts))            // attempts label
+    stats.appendChild(generateRightItem(randomItem, box))                                  // right item
+    stats.appendChild(generateChecker(form, points, attempts, box))                                    // checker
     stats.style.top = '-100%'
     stats.style.left = board.offsetWidth + 'px'
     stats.style.width = form.offsetWidth - board.offsetWidth + 'px'
-    pointsLabel.style.width = '50%'
-    attemptsLabel.style.width = '50%'
-    rightItem.style.width = box.offsetWidth + 'px'
-    rightItem.style.height = box.offsetHeight + 'px'
-    checker.style.width = box.offsetWidth + 'px'
-    checker.style.height = box.offsetHeight + 'px'
     window.addEventListener('resize', () => {
         stats.style.top = '-100%'
         stats.style.left = board.offsetWidth + 'px'
         stats.style.width = form.offsetWidth - board.offsetWidth + 'px'
-        pointsLabel.style.width = '50%'
-        attemptsLabel.style.width = '50%'
-        rightItem.style.width = box.offsetWidth + 'px'
-        rightItem.style.height = box.offsetHeight + 'px'
-        checker.style.width = box.offsetWidth + 'px'
-        checker.style.height = box.offsetHeight + 'px'
     })
     return stats
 }
@@ -197,13 +177,13 @@ const generateButton = (name) => {
     button.style.borderRadius    = '10px'
     button.style.width           = '200px'
     button.style.height          = '50px'
-    button.style.fontSize        = '2em'
+    button.style.fontSize        = '2rem'
     button.style.margin          = '10px'
     button.style.transition      = '0.2s'
     button.style.backgroundColor = 'white'
     button.textContent           = name
     button.addEventListener('mouseenter', () => {
-        button.style.cursor = 'pointer'
+        button.style.cursor      = 'pointer'
         button.style.transform   = 'scale(1.2)'
     })
     button.addEventListener('mouseleave', () => {
@@ -215,17 +195,16 @@ const generateButton = (name) => {
 
 const generatebuttonSection = () => {
     let buttonSection                  = document.createElement('div')
-    let buttonUpdate                   = document.createElement('div')
-    let buttonExit                     = document.createElement('div')
-    let buttonChangeDiff               = document.createElement('div')
-    buttonExit.addEventListener('click', () => {
-        window.location.href = '/finish.html';
-    })
-    buttonUpdate.addEventListener('click', () => {
-        window.location.reload();
-    })
-    buttonChangeDiff.addEventListener('click', () => {
-        window.location.href = '/levelConfig.html';
+    let buttonUpdate                   = generateButton('Обновить')
+    let buttonExit                     = generateButton('Результаты')
+    let buttonChangeDiff               = generateButton('Сложность')
+    buttonSection.addEventListener('click', (e) => {
+        if(e.target.textContent == 'Обновить')
+            window.location.reload()
+        else if(e.target.textContent == 'Результаты')
+            window.location.href = 'results.html'
+        else if(e.target.textContent == 'Сложность')
+            window.location.href = '/levelConfig.html'
     })
     buttonSection.style.width          = '60%'
     buttonSection.style.height         = 'auto'
@@ -234,15 +213,15 @@ const generatebuttonSection = () => {
     buttonSection.style.flexWrap       = 'wrap'
     buttonSection.style.justifyContent = 'center'
     buttonSection.style.alignItems     = 'center'
-    buttonSection.appendChild(generateButton('Сложность'))
-    buttonSection.appendChild(generateButton('Обновить'))
-    buttonSection.appendChild(generateButton('Закончить'))
+    buttonSection.appendChild(buttonExit)
+    buttonSection.appendChild(buttonChangeDiff)
+    buttonSection.appendChild(buttonUpdate)
     return buttonSection
 }
 
 
 
-const generateInnerBox= () => {
+const generateInnerBox = () => {
     let innerBox                  = document.createElement("div")
     innerBox.classList.add("innerBox")
     innerBox.style.position       = 'relative'
@@ -253,68 +232,91 @@ const generateInnerBox= () => {
     innerBox.style.width          = '80%'
     innerBox.style.height         = '80%'
     innerBox.style.transition     = 'all 0.3s'
-    innerBox.draggable            = true // make innerBox draggable
-    let rotateDeg                 = 0
-    innerBox.addEventListener('dragover', dragOver);
-    innerBox.addEventListener('dragstart', dragStart);
-    innerBox.addEventListener('dragend', dragDrop);
-    innerBox.addEventListener('click', () => {
-        rotateDeg                 =  rotateDeg + 90
-        innerBox.style.transform  = 'rotate(' + rotateDeg + 'deg)'
-    })
+    innerBox.draggable            = true
+    innerBox.addEventListener('dragstart', (e) => {
+        console.log('drag started');
+        dragItem = this;
+    });
+    let rotateDeg                 = (innerBox.style.rotate).slice(0, 3)
 
     return innerBox
 }
 
 
-const generateChecker= (form, point, attempts) => {
-    let box                      = document.querySelector('.innerBox')
+
+const check = (dragItem) => {
+    console.log(dragItem)
+    if(dragItem != 'null') {
+        let checkItem = dragItem.cloneNode(true)
+        checker.appendChild(checkItem)
+        checker.innerHTML = ''
+            if(checkItem.id == 'rightItem')
+            {
+                points += point
+                checker.style.backgroundColor = 'green'
+                setTimeout(() => {
+                    window.location.reload()
+                }, 500)
+            }
+            else
+            {
+                --attempts;
+                if(attempts == 0)
+                {
+                    window.location.href = 'results.html'
+                }
+                checker.style.backgroundColor = 'red'
+                setTimeout(() => {
+                    checker.style.backgroundColor = '#092fed'
+                }, 500)
+
+            }
+            updateStats()
+        dragItem = null
+        checkItem = null
+    }
+    console.log(dragItem)
+}
+
+
+const generateChecker = (form, point, attempts, box) => {
     let checker                  = document.createElement("div")
-    checker.style.position       = 'relative'
     checker.style.width          = box.offsetWidth + "px"
     checker.style.height         = box.offsetHeight + 'px'
-    window.addEventListener('resize', () => {
-        checker.style.width     = box.offsetWidth + "px"
-        checker.style.height    = box.offsetHeight + 'px'
-    })
-    checker.style.top            = '-' + checker.offsetHeight + 'px'
-    checker.style.border         = '0.5px solid grey'
-    checker.draggable            = true
-    checker.style.display        = 'flex'
+    checker.style.border         = '0.1rem solid black'
     checker.style.justifyContent = 'center'
-    checker.style.transition     = 'all 0s ease'
+    checker.style.transition     = 'all 0.3s ease'
     checker.style.alignItems     = 'center'    
     checker.addEventListener('dragover', (e) => {
         e.preventDefault()
     });
-    checker.addEventListener('mouseenter', () => {
-        if(dragItem != 'null') {
-            let checkItem = dragItem.cloneNode(true)
-            checker.appendChild(checkItem)
-            checker.innerHTML = ''
-                if(checkItem.id == 'rightItem')
-                {
-                    points += point
-                    checker.style.backgroundColor = 'green'
-                    setTimeout(() => {
-                    window.location.reload()
-                    }, 500)
-                }
-                else
-                {
-                    checker.style.backgroundColor = 'red'
-                    setTimeout(() => {
-                        checker.style.backgroundColor = '#092fed'
-                    }, 500)
-
-                }
-                // updateStats()
-            dragItem = null
-            checkItem = null
-        }
-        console.log(dragItem)
+    checker.addEventListener('drop', check())
+    window.addEventListener('resize', () => {
+        checker.style.width = box.offsetWidth + 'px'
+        checker.style.height = box.offsetHeight + 'px'
     })
     return checker
 }
 
 
+
+const updateStats = () => {
+    let pointsLabel = document.querySelector('.points')
+    let attemptsLabel = document.querySelector('.attempts')
+    pointsLabel.textContent = 'Очки: ' + points
+    attemptsLabel.textContent = 'Попытки: ' + attempts
+}
+
+
+
+
+window.addEventListener('resize', () => {
+    stats.style.top = '-100%'
+    stats.style.left = board.offsetWidth + 'px'
+    stats.style.width = form.offsetWidth - board.offsetWidth + 'px'
+    pointsLabel.style.width = '50%'
+    attemptsLabel.style.width = '50%'
+    rightItem.style.width = box.offsetWidth + 'px'
+    rightItem.style.height = box.offsetHeight + 'px'
+
+})
