@@ -1,0 +1,42 @@
+.gameForm 
+{
+    display: block !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-shadow: 0 1px 10px 0 #000;
+    min-width: 600px !important;
+    min-height: 750px !important;
+    height:80%;
+    background-color: #092fed;
+}
+
+
+.resultLabel
+{
+    color: #fff;
+    font-size: 5rem !important;;
+    font-weight: bold;
+    height: 10%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.resultContainer
+{
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left:10%;
+    position: relative;
+    width:80%;
+    height: 80% !important;
+    min-height: 300px;
+    color: #fff;
+    font-size: 4rem !important;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
