@@ -16,7 +16,7 @@ body
     height: 100vh;
     min-width: 900px;
     min-height: 600px;
-    background-image: url(/assets/background.jpg);
+    background-image: url(../assets/background.jpg);
     background-size: cover;
 }
 

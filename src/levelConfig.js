@@ -25,11 +25,12 @@ function generateColors(countOfColors)
 
 
 const levels = new Map([
-    ['easy',  new level(3, 1, generateColors(5), 10)],
-    ['medium',new level(4, 1, generateColors(7), 20)],
-    ['hard',  new level(5, 2, generateColors(10), 30)],
-    ['unreal',new level(6, 3, generateColors(15), 50)],
+    ['easy',  new level(3, 1, generateColors(5), 10,5)],
+    ['medium',new level(4, 1, generateColors(7), 20,8)],
+    ['hard',  new level(5, 2, generateColors(10), 30,10)],
+    ['unreal',new level(6, 3, generateColors(15), 50,15)],
 ]) 
+
 
 
 
@@ -43,7 +44,7 @@ levelNames.forEach((levelName) => {
     levelName.addEventListener("click", () => {
         var choosedLevel = levels.get(levelName.id)
         localStorage.setItem("choosedLevel", JSON.stringify(choosedLevel))
-        window.location.href = "/game.html"
+        window.location.href = "./game.html"
     })
 })
 

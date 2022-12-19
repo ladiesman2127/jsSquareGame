@@ -24,6 +24,6 @@ document.querySelector(".signin").addEventListener("click", () => {
     const userName = document.querySelector(".login").value
     if(userName === "") return
     updateStorage(userName)
-    window.location.href = "/levelConfig.html"
+    window.location.href = "./levelConfig.html"
 })
 
