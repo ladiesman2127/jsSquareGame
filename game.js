@@ -1,27 +1,21 @@
-
+const getUser          = ()        => {return JSON.parse(localStorage.getItem(localStorage.getItem('currentUser')))}
 const changeDifficulty = ()        => {window.location.href = './levelConfig.html'}
 const reauth           = ()        => {window.location.href = './index.html'}
 const gameOver         = ()        => {window.location.href = './gameOver.html'}
 const update           = ()        => {window.location.reload()}
-const getRandomColor          = (Colors)  => {return Colors[Math.floor(Math.random() * Colors.length)]}
-const calculateWidth          = (size)    => {return 100/size}
-const calculateHeight         = (size)    => {return 100/size}
-const getRandomPuzzle         = (puzzles) => {return puzzles[Math.floor(Math.random() * puzzles.length)]}
-const getUser          = (username = localStorage.getItem('currentUser')) => 
-                                            {return JSON.parse(localStorage.getItem(username))}
-const getPoints        = (username = localStorage.getItem('currentUser')) => 
-                                            {return getUser(username)._points}
-const getRecord        = (username = localStorage.getItem('currentUser')) =>
-                                            {return getUser(username)._record}
+const getRandomColor   = (Colors)  => {return Colors[Math.floor(Math.random() * Colors.length)]}
+const calculateWidth   = (size)    => {return 100/size}
+const calculateHeight  = (size)    => {return 100/size}
+const getRandomPuzzle  = (puzzles) => {return puzzles[Math.floor(Math.random() * puzzles.length)]}
 
 const generatePointsLabel = (points) => {
     let pointsLabel            = document.createElement('div')
+    pointsLabel.textContent    = 'Очки: ' + points
     pointsLabel.id             = 'points'
     pointsLabel.style.position = 'relative'
     pointsLabel.style.width    = '50%'
     pointsLabel.style.height   = 'auto'
     pointsLabel.style.fontSize = '2rem'
-    pointsLabel.textContent    = 'Очки: ' + points
     pointsLabel.style.color    = 'white'
     pointsLabel.classList.add('points')
     window.addEventListener('resize', (e) => {
@@ -32,11 +26,11 @@ const generatePointsLabel = (points) => {
 
 const generateTimerLabel = (startTime) => {
     let timerLabel            = document.createElement('div')
+    timerLabel.textContent    = "Таймер: " + startTime
     timerLabel.style.position = 'relative'
     timerLabel.style.width    = '70%'
     timerLabel.style.height   = 'auto'
     timerLabel.style.fontSize = '2rem'
-    timerLabel.textContent    = "Таймер: " + startTime
     timerLabel.style.color    = 'white'
     timerLabel.classList.add('timer')
     window.addEventListener('resize', (e) => {
@@ -125,7 +119,7 @@ const generateBoard = (form,
     let stats = generateStats(form, 
                               board,
                               box, 
-                              getPoints(), 
+                              getUser()._points, 
                               level._points, 
                               level._attempts,
                               level._timer, 
@@ -347,8 +341,11 @@ let start = Date.now()
 setInterval(() => {
     let delta = Math.floor((Date.now() - start) / 1000)
     console.log(delta)
-    document.querySelector(".timer").textContent = "Таймер: " + (level._timer - delta)
-    if(level._timer - delta <= 0)
+    if(level._timer - delta >= 0)
+        document.querySelector(".timer").textContent = "Таймер: " + (level._timer - delta)
+    else{
         gameOver()
-}, 0)
+    }
+    
+}, level._timer)
     
